@@ -1,0 +1,12 @@
+package com.security.starter.filter.jwt;
+
+import com.security.starter.filter.HttpSecurityConfigurerCustomizer;
+
+public class JsonWebTokenSecurityConfigurerCustomizer implements
+        HttpSecurityConfigurerCustomizer<JsonWebTokenSecurityConfigurer> {
+
+    @Override
+    public void customize(JsonWebTokenSecurityConfigurer configurer) {
+
+    }
+}
