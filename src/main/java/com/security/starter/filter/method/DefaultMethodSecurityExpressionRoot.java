@@ -1,4 +1,4 @@
-package com.security.starter.support;
+package com.security.starter.filter.method;
 
 import org.springframework.security.access.expression.SecurityExpressionRoot;
 import org.springframework.security.access.expression.method.MethodSecurityExpressionOperations;

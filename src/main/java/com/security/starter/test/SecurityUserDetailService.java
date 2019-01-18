@@ -1,4 +1,4 @@
-package com.security.starter.support;
+package com.security.starter.test;
 
 import com.security.starter.service.DemoService;
 import org.springframework.beans.factory.annotation.Autowired;

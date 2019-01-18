@@ -19,13 +19,11 @@ public class GlobalSecurityAdaptor extends WebSecurityConfigurerAdapter {
     @Override
     protected final void configure(HttpSecurity http) throws Exception {
 
-        if(INIT_STATE.compareAndSet(false,true)){
+        if(INIT_STATE.compareAndSet(false,true) && securityConfigurer != null){
             securityConfigurer.configure(http);
         }
-
         //保证 全局http链有一些公用的东西
         securityConfigure(http);
-
     }
 
     //包装之后新的方法

@@ -2,16 +2,15 @@ package com.security.starter.config;
 
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.security.starter.filter.ExceptionHandler;
-import com.security.starter.filter.http.HttpSecurityConfigurerCustomizer;
 import com.security.starter.filter.QueryRequestMatcher;
 import com.security.starter.filter.SecurityFilterExceptionConfigure;
 import com.security.starter.filter.http.*;
-import com.security.starter.filter.http.DelegatingHttpSecurityConfigurerCustomizer;
 import com.security.starter.filter.jwt.JsonWebTokenSecurityConfigurer;
 import com.security.starter.filter.jwt.JsonWebTokenSecurityConfigurerCustomizer;
+import com.security.starter.filter.method.PermissionAnnotationSecurityMetadataSource;
 import com.security.starter.properties.JsonWebTokenProperties;
 import com.security.starter.support.RSAKeyPair;
-import com.security.starter.support.SecurityMethodSecurityExpressionHandler;
+import com.security.starter.filter.method.SecurityMethodSecurityExpressionHandler;
 import com.security.starter.support.handler.JsonServerAuthenticationFailureHandler;
 import com.security.starter.support.handler.JsonServerAuthenticationSuccessHandler;
 import com.security.starter.support.strategy.DefaultJsonStrategy;
@@ -33,7 +32,6 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
 
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -80,7 +78,7 @@ public class JWTConfiguration {
 
 
 
-    @Bean(JsonWebTokenConfig.JSON_WEB_TOKEN_SECURITY_CONFIGURER)
+    @Bean(JsonWebTokenConfig.JSON_WEB_TOKEN_SECURITY_HTTP_CONFIGURER)
     public JsonWebTokenSecurityConfigurer jsonWebTokenSecurityConfigurer(RSAKeyPair rsaKeyPair){
         return new JsonWebTokenSecurityConfigurer(rsaKeyPair);
     }
@@ -145,6 +143,7 @@ public class JWTConfiguration {
     }
 
     @Bean
+    @ConditionalOnMissingBean
     public MethodSecurityExpressionHandler securityMethodSecurityExpressionHandler() {
         return new SecurityMethodSecurityExpressionHandler();
     }
@@ -153,5 +152,6 @@ public class JWTConfiguration {
     public HttpSecurityConfigurerCustomizer jwtSecurityConfigurerCustomizer() {
         return new JsonWebTokenSecurityConfigurerCustomizer();
     }
+
 
 }

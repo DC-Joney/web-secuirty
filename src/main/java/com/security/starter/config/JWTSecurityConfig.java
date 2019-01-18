@@ -3,18 +3,13 @@ package com.security.starter.config;
 import com.security.starter.filter.http.GlobalHttpSecurityConfigurer;
 import com.security.starter.filter.http.HttpSecurityConfigurerCustomizer;
 import com.security.starter.filter.http.SecurityFilterConfigure;
-import com.security.starter.filter.jwt.JsonWebTokenSecurityConfigurer;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
-import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource;
-import org.springframework.security.access.method.MethodSecurityMetadataSource;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
@@ -22,8 +17,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.util.Assert;
 
 @Log4j2
-@AutoConfigureAfter({JWTConfiguration.class})
-public class JsonWebTokenSecurityConfig implements GlobalHttpSecurityConfigurer, ApplicationContextAware {
+public class JWTSecurityConfig implements GlobalHttpSecurityConfigurer, ApplicationContextAware {
 
     private ApplicationContext applicationContext;
 
@@ -35,23 +29,8 @@ public class JsonWebTokenSecurityConfig implements GlobalHttpSecurityConfigurer,
     @Autowired(required = false)
     private HttpSecurityConfigurerCustomizer<AbstractHttpConfigurer> configurerCustomizer;
 
-
-    public JsonWebTokenSecurityConfig(@GlobalMethodSecurityMetadataSource ObjectProvider<MethodSecurityMetadataSource> metadataSource,
-                                      ServerProperties properties) {
-
+    public JWTSecurityConfig(ServerProperties properties) {
         this.properties = properties;
-        log.info("=============================" + metadataSource.getIfAvailable());
-        metadataSource.ifAvailable(source -> {
-            if (source instanceof DelegatingMethodSecurityMetadataSource) {
-                initMetadataSource((DelegatingMethodSecurityMetadataSource) source);
-            }
-        });
-    }
-
-
-    private void initMetadataSource(DelegatingMethodSecurityMetadataSource metadataSource) {
-        log.info(metadataSource.getMethodSecurityMetadataSources());
-//        metadataSource.getMethodSecurityMetadataSources().add();
     }
 
 
@@ -63,7 +42,7 @@ public class JsonWebTokenSecurityConfig implements GlobalHttpSecurityConfigurer,
     @Override
     public void configure(HttpSecurity http) throws Exception {
 
-        JsonWebTokenSecurityConfigurer securityConfigurer = getSingleBeanOrNull(JsonWebTokenConfig.JSON_WEB_TOKEN_SECURITY_CONFIGURER, JsonWebTokenSecurityConfigurer.class);;
+        com.security.starter.filter.jwt.JsonWebTokenSecurityConfigurer securityConfigurer = getSingleBeanOrNull(JsonWebTokenConfig.JSON_WEB_TOKEN_SECURITY_HTTP_CONFIGURER, com.security.starter.filter.jwt.JsonWebTokenSecurityConfigurer.class);;
 
         AuthenticationFailureHandler failureHandler = getSingleBeanOrNull(JsonWebTokenConfig.FAIL_HANDLER_BEAN_NAME, AuthenticationFailureHandler.class);
 

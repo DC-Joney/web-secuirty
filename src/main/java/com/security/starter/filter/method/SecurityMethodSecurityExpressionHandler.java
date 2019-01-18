@@ -1,4 +1,4 @@
-package com.security.starter.support;
+package com.security.starter.filter.method;
 
 import org.aopalliance.intercept.MethodInvocation;
 import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler;
