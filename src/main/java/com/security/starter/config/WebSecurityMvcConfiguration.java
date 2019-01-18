@@ -21,7 +21,7 @@ import org.springframework.core.convert.support.DefaultConversionService;
 import java.util.Optional;
 
 @Log4j2
-@AutoConfigureAfter(JsonWebTokenSecurityConfig.class)
+@AutoConfigureAfter(JWTConfiguration.class)
 @ConditionalOnClass({JsonWebTokenProperties.class, AbstractOAuth2TokenAuthenticationToken.class})
 class WebSecurityMvcConfiguration implements ApplicationContextAware, ApplicationListener<ContextRefreshedEvent>, InitializingBean {
 

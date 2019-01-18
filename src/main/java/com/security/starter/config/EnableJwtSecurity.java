@@ -9,7 +9,7 @@ import java.lang.annotation.*;
 @Target(ElementType.TYPE)
 @Documented
 @ImportAutoConfiguration({WebSecurityMvcConfiguration.class
-        , JsonWebTokenSecurityConfig.class})
+        , JWTConfiguration.class,JsonWebTokenSecurityConfig.class})
 public @interface EnableJwtSecurity {
 
 }

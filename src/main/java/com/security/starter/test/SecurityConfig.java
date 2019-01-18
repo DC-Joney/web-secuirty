@@ -1,6 +1,7 @@
 package com.security.starter.test;
 
 import com.security.starter.config.EnableJwtSecurity;
+import com.security.starter.config.GlobalSecurityAdaptor;
 import com.security.starter.config.JsonWebTokenConfig;
 import com.security.starter.filter.SecurityClearContextFilter;
 import com.security.starter.support.SecurityUserDetailService;
@@ -24,7 +25,7 @@ import org.springframework.security.web.context.SecurityContextPersistenceFilter
 @EnableWebSecurity(debug = true)
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @Order(101)
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig extends GlobalSecurityAdaptor {
 
     @Bean
     public UserDetailsService userDetailsService(){
@@ -41,7 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private AuthenticationSuccessHandler successHandler;
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    protected void securityConfigure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .formLogin()
                 .successHandler(successHandler)

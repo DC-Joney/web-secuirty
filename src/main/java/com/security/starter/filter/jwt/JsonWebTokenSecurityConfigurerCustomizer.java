@@ -1,6 +1,6 @@
 package com.security.starter.filter.jwt;
 
-import com.security.starter.filter.HttpSecurityConfigurerCustomizer;
+import com.security.starter.filter.http.HttpSecurityConfigurerCustomizer;
 
 public class JsonWebTokenSecurityConfigurerCustomizer implements
         HttpSecurityConfigurerCustomizer<JsonWebTokenSecurityConfigurer> {

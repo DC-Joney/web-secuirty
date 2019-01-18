@@ -2,10 +2,8 @@ package com.security.starter.filter;
 
 import com.security.starter.support.exception.JsonWebTokenError;
 import com.security.starter.support.exception.JwtAuthenticationException;
-import com.security.starter.support.exception.WrappedError;
 import com.security.starter.support.strategy.DefaultJsonStrategy;
 import com.security.starter.support.strategy.JsonStrategy;
-import com.security.starter.util.JsonConvertUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
@@ -49,6 +47,8 @@ public class ExceptionTranslationHandler  implements ExceptionHandler{
         }else {
             tokenError = new JsonWebTokenError(httpStatus.getReasonPhrase(),httpStatus,throwable.getMessage());
         }
+
+
 
        response.sendError(tokenError.getHttpStatus().value(),tokenError.getDescription());
 

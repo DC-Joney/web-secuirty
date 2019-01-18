@@ -1,13 +1,11 @@
 package com.security.starter.filter.jwt;
 
-import com.security.starter.config.HttpSecurityConfigurer;
 import com.security.starter.filter.QueryRequestMatcher;
 import com.security.starter.support.JsonWebTokenConverter;
 import com.security.starter.support.RSAKeyPair;
 import com.security.starter.support.TokenConverter;
 import com.security.starter.support.handler.NoAuthenticationSuccessHandler;
 import com.security.starter.support.jwt.NimbusSecuirtyJwtDecoder;
-import com.sun.org.apache.regexp.internal.RE;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -15,10 +13,10 @@ import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 
-@HttpSecurityConfigurer
-public class JsonWebTokenSecurityConfigurer<H extends HttpSecurity> extends
-        AbstractHttpConfigurer<JsonWebTokenSecurityConfigurer<H>, HttpSecurity> {
+public class JsonWebTokenSecurityConfigurer extends
+        AbstractHttpConfigurer<JsonWebTokenSecurityConfigurer, HttpSecurity> {
 
     private RSAKeyPair keyPair;
 
@@ -39,32 +37,32 @@ public class JsonWebTokenSecurityConfigurer<H extends HttpSecurity> extends
         this.keyPair = rsaKeyPair;
     }
 
-    public JsonWebTokenSecurityConfigurer<H> successHandler(AuthenticationSuccessHandler successHandler){
+    public JsonWebTokenSecurityConfigurer successHandler(AuthenticationSuccessHandler successHandler){
         this.successHandler = successHandler;
         return this;
     }
 
-    public JsonWebTokenSecurityConfigurer<H> jsonWebTokenConverter(JsonWebTokenConverter tokenConverter){
+    public JsonWebTokenSecurityConfigurer jsonWebTokenConverter(JsonWebTokenConverter tokenConverter){
         this.tokenConverter = tokenConverter;
         return this;
     }
 
-    public JsonWebTokenSecurityConfigurer<H> failureHandler(AuthenticationFailureHandler failureHandler){
+    public JsonWebTokenSecurityConfigurer failureHandler(AuthenticationFailureHandler failureHandler){
         this.failureHandler = failureHandler;
         return this;
     }
 
-    public JsonWebTokenSecurityConfigurer<H> jwtDecoder(JwtDecoder jwtDecoder){
+    public JsonWebTokenSecurityConfigurer jwtDecoder(JwtDecoder jwtDecoder){
         this.jwtDecoder = jwtDecoder;
         return this;
     }
 
-    public JsonWebTokenSecurityConfigurer<H> authenticationManager(AuthenticationManager authenticationManager){
+    public JsonWebTokenSecurityConfigurer authenticationManager(AuthenticationManager authenticationManager){
         this.authenticationManager = authenticationManager;
         return this;
     }
 
-    public JsonWebTokenSecurityConfigurer<H> authenticationManager(JsonWebTokenAuthenticationFilter authenticationFilter){
+    public JsonWebTokenSecurityConfigurer authenticationManager(JsonWebTokenAuthenticationFilter authenticationFilter){
         this.authenticationFilter = authenticationFilter;
         return this;
     }
@@ -74,7 +72,7 @@ public class JsonWebTokenSecurityConfigurer<H extends HttpSecurity> extends
     @Override
     public void configure(HttpSecurity http) throws Exception {
 
-        QueryRequestMatcher requestMatcher = http.getSharedObject(QueryRequestMatcher.class);
+        RequestMatcher requestMatcher = http.getSharedObject(RequestMatcher.class);
 
         if(tokenConverter == null){
             tokenConverter = new JsonWebTokenConverter();

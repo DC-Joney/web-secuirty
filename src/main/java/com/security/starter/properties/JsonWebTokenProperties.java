@@ -1,6 +1,6 @@
 package com.security.starter.properties;
 
-import com.security.starter.config.StoreType;
+import com.security.starter.store.StoreType;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
